@@ -1,0 +1,25 @@
+run:
+  name: overflow-risk-unbounded
+  framework: prime-rl
+
+training:
+  dtype: bfloat16
+  async_policy_lag: 4
+  max_off_policy_lag: 8
+  float32_matmul_precision: high
+
+loss:
+  type: default
+  importance_ratio_max: null
+  kl_tau: 0.01
+
+mock:
+  logprob_scenarios:
+    - name: single-token-blowup
+      trainer_logprob: -2.0
+      inference_logprob: -91.0
+      in_loss_mask: true
+    - name: masked-overflow-nan
+      trainer_logprob: -2.0
+      inference_logprob: -91.0
+      in_loss_mask: false

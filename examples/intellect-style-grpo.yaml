@@ -1,0 +1,29 @@
+run:
+  name: intellect-style-grpo
+  framework: prime-rl
+
+training:
+  dtype: bfloat16
+  async_policy_lag: 4
+  max_off_policy_lag: 8
+  float32_matmul_precision: highest
+
+loss:
+  type: default
+  importance_ratio_max: 20.0
+  kl_tau: 0.01
+
+mock:
+  logprob_scenarios:
+    - name: in-policy-token
+      trainer_logprob: -0.5
+      inference_logprob: -0.6
+      in_loss_mask: true
+    - name: mild-off-policy
+      trainer_logprob: -2.0
+      inference_logprob: -4.0
+      in_loss_mask: true
+    - name: stale-but-clipped
+      trainer_logprob: -2.0
+      inference_logprob: -91.0
+      in_loss_mask: true
