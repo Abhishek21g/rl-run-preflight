@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2026-07-09T05:12:38.119771+00:00",
+  "generated_at": "2026-07-09T05:15:49.757311+00:00",
   "run_id": "demo-pass",
   "run_name": "intellect-style-grpo",
   "framework": "prime-rl",
@@ -62,7 +62,7 @@
     {
       "name": "stale-but-clipped",
       "log_ratio": 89.0,
-      "ratio": Infinity,
+      "ratio": "inf",
       "overflows": true,
       "masked_nan": false
     }

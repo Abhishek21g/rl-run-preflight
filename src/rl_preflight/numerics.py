@@ -2,9 +2,11 @@
 
 from __future__ import annotations
 
+import json
 import math
 import struct
 from dataclasses import dataclass
+from typing import Any
 
 
 # exp(x) overflows IEEE float32 near ln(FLT_MAX) ≈ 88.72
@@ -59,11 +61,36 @@ class ScenarioResult:
     def to_dict(self) -> dict:
         return {
             "name": self.name,
-            "log_ratio": self.log_ratio,
-            "ratio": self.ratio,
+            "log_ratio": json_safe_float(self.log_ratio),
+            "ratio": json_safe_float(self.ratio),
             "overflows": self.overflows,
             "masked_nan": self.masked_nan,
         }
+
+
+def json_safe_float(value: float) -> float | str:
+    """RFC 8259 JSON cannot represent inf/nan — use strings in receipts."""
+    if math.isinf(value):
+        return "inf" if value > 0 else "-inf"
+    if math.isnan(value):
+        return "nan"
+    return value
+
+
+def json_dumps(data: Any, *, indent: int | None = None) -> str:
+    return json.dumps(sanitize_for_json(data), indent=indent)
+
+
+def sanitize_for_json(value: Any) -> Any:
+    if isinstance(value, float):
+        if math.isinf(value) or math.isnan(value):
+            return json_safe_float(value)
+        return value
+    if isinstance(value, dict):
+        return {k: sanitize_for_json(v) for k, v in value.items()}
+    if isinstance(value, list):
+        return [sanitize_for_json(v) for v in value]
+    return value
 
 
 def evaluate_scenario(

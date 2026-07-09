@@ -145,6 +145,17 @@ def test_doctor_command(capsys, tmp_path):
     assert "PASS" in capsys.readouterr().out
 
 
+def test_summary_json_is_strict_json(tmp_path):
+    manifest = load_manifest(EXAMPLES / "intellect-style-grpo.yaml")
+    receipt_dir = execute_run(manifest, out_dir=tmp_path, run_id="strictjson")
+    raw = (receipt_dir / "summary.json").read_text()
+    assert ": Infinity" not in raw
+    assert ": NaN" not in raw
+    data = json.loads(raw)
+    stale = next(s for s in data["scenario_results"] if s["name"] == "stale-but-clipped")
+    assert stale["ratio"] == "inf"
+
+
 def test_report_markdown(capsys, tmp_path):
     from rl_preflight.cli import main
 

@@ -3,13 +3,14 @@
 from __future__ import annotations
 
 import json
-from dataclasses import asdict, dataclass, field
+from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
 from rl_preflight.checks import GateResult, overall_pass
 from rl_preflight.config import RunManifest
+from rl_preflight.numerics import sanitize_for_json
 
 
 @dataclass
@@ -28,18 +29,20 @@ class PreflightSummary:
     manifest: dict = field(default_factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
-        return {
-            "schema_version": self.schema_version,
-            "generated_at": self.generated_at,
-            "run_id": self.run_id,
-            "run_name": self.run_name,
-            "framework": self.framework,
-            "mode": self.mode,
-            "passed": self.passed,
-            "gates": [g.to_dict() for g in self.gates],
-            "scenario_results": self.scenario_results,
-            "manifest": self.manifest,
-        }
+        return sanitize_for_json(
+            {
+                "schema_version": self.schema_version,
+                "generated_at": self.generated_at,
+                "run_id": self.run_id,
+                "run_name": self.run_name,
+                "framework": self.framework,
+                "mode": self.mode,
+                "passed": self.passed,
+                "gates": [g.to_dict() for g in self.gates],
+                "scenario_results": self.scenario_results,
+                "manifest": self.manifest,
+            }
+        )
 
     @classmethod
     def from_dict(cls, data: dict[str, Any]) -> PreflightSummary:

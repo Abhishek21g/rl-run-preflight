@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2026-07-09T05:12:38.184471+00:00",
+  "generated_at": "2026-07-09T05:15:49.823886+00:00",
   "run_id": "demo-fail",
   "run_name": "overflow-risk-unbounded",
   "framework": "prime-rl",
@@ -48,14 +48,14 @@
     {
       "name": "single-token-blowup",
       "log_ratio": 89.0,
-      "ratio": Infinity,
+      "ratio": "inf",
       "overflows": true,
       "masked_nan": false
     },
     {
       "name": "masked-overflow-nan",
       "log_ratio": 89.0,
-      "ratio": Infinity,
+      "ratio": "inf",
       "overflows": true,
       "masked_nan": true
     }
