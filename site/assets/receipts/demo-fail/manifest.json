@@ -1,0 +1,16 @@
+{
+  "run_id": "demo-fail",
+  "config_path": "overflow-risk-unbounded",
+  "checks": [
+    "config_schema",
+    "importance_ratio_overflow",
+    "masked_overflow_nan",
+    "importance_ratio_cap",
+    "async_off_policy_lag",
+    "float32_matmul_precision"
+  ],
+  "artifacts": {
+    "summary": "summary.json",
+    "report_md": "report.md"
+  }
+}

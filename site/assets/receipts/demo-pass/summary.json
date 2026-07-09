@@ -1,0 +1,112 @@
+{
+  "schema_version": "1.0",
+  "generated_at": "2026-07-09T05:12:38.119771+00:00",
+  "run_id": "demo-pass",
+  "run_name": "intellect-style-grpo",
+  "framework": "prime-rl",
+  "mode": "mock",
+  "passed": true,
+  "gates": [
+    {
+      "name": "config_schema",
+      "passed": true,
+      "severity": "error",
+      "detail": "framework='prime-rl', run='intellect-style-grpo'"
+    },
+    {
+      "name": "importance_ratio_overflow",
+      "passed": true,
+      "severity": "info",
+      "detail": "importance_ratio_max=20.0 configured \u2014 trainer should clip"
+    },
+    {
+      "name": "masked_overflow_nan",
+      "passed": true,
+      "severity": "info",
+      "detail": "no masked-token NaN in mock scenarios"
+    },
+    {
+      "name": "importance_ratio_cap",
+      "passed": true,
+      "severity": "info",
+      "detail": "cap=20.0 covers mock scenarios"
+    },
+    {
+      "name": "async_off_policy_lag",
+      "passed": true,
+      "severity": "info",
+      "detail": "async_policy_lag=4, max_off_policy_lag=8"
+    },
+    {
+      "name": "float32_matmul_precision",
+      "passed": true,
+      "severity": "info",
+      "detail": "float32_matmul_precision=highest"
+    }
+  ],
+  "scenario_results": [
+    {
+      "name": "in-policy-token",
+      "log_ratio": 0.09999999999999998,
+      "ratio": 1.1051709651947021,
+      "overflows": false,
+      "masked_nan": false
+    },
+    {
+      "name": "mild-off-policy",
+      "log_ratio": 2.0,
+      "ratio": 7.389056205749512,
+      "overflows": false,
+      "masked_nan": false
+    },
+    {
+      "name": "stale-but-clipped",
+      "log_ratio": 89.0,
+      "ratio": Infinity,
+      "overflows": true,
+      "masked_nan": false
+    }
+  ],
+  "manifest": {
+    "run": {
+      "name": "intellect-style-grpo",
+      "framework": "prime-rl"
+    },
+    "training": {
+      "dtype": "bfloat16",
+      "async_policy_lag": 4,
+      "max_off_policy_lag": 8,
+      "float32_matmul_precision": "highest"
+    },
+    "loss": {
+      "type": "default",
+      "importance_ratio_max": 20.0,
+      "kl_tau": 0.01
+    },
+    "mock": {
+      "logprob_scenarios": [
+        {
+          "name": "in-policy-token",
+          "trainer_logprob": -0.5,
+          "inference_logprob": -0.6,
+          "in_loss_mask": true,
+          "advantage": 1.0
+        },
+        {
+          "name": "mild-off-policy",
+          "trainer_logprob": -2.0,
+          "inference_logprob": -4.0,
+          "in_loss_mask": true,
+          "advantage": 1.0
+        },
+        {
+          "name": "stale-but-clipped",
+          "trainer_logprob": -2.0,
+          "inference_logprob": -91.0,
+          "in_loss_mask": true,
+          "advantage": 1.0
+        }
+      ]
+    }
+  }
+}
