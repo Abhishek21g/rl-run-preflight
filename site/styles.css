@@ -100,6 +100,9 @@ h1 { font-size: clamp(2.2rem, 4vw, 3.4rem); line-height: 1.05; margin: 0 0 16px;
   display: grid; grid-template-columns: 1fr auto; gap: 8px;
   padding: 12px 14px; border: 1px solid var(--line); border-radius: 12px; background: #fff;
 }
+.demo-status { font-weight: 700; margin: 12px 0; }
+.demo-status.ok { color: var(--green); }
+.demo-status.bad { color: var(--red); }
 .scenario-card .flags { color: var(--red); font-size: 0.82rem; font-family: var(--mono); }
 
 .footer { padding: 32px 44px 48px; color: var(--muted); border-top: 1px solid var(--line); text-align: center; }
